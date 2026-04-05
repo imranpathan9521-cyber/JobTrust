@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>JobTrust — Real Jobs India</title>
+<meta name="description" content="JobTrust - Find real jobs on Naukri, LinkedIn, Indeed instantly">
+<meta name="theme-color" content="#FF6B35">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JobTrust">
+<link rel="manifest" id="manifest-placeholder">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#fff;min-height:100vh}
+
+/* SPLASH SCREEN */
+#splash{position:fixed;top:0;left:0;width:100%;height:100%;background:#0f172a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s}
+#splash img{width:140px;height:140px;border-radius:28px;box-shadow:0 8px 40px rgba(255,107,53,0.5);margin-bottom:20px}
+#splash h1{font-size:2rem;font-weight:900;color:#FF6B35;letter-spacing:2px}
+#splash p{color:#FFD700;font-size:0.85rem;margin-top:6px;letter-spacing:3px}
+.splash-bar{width:200px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:30px;overflow:hidden}
+.splash-fill{height:100%;background:linear-gradient(90deg,#FF6B35,#FFD700);border-radius:2px;animation:fill 1.8s ease forwards}
+@keyframes fill{from{width:0}to{width:100%}}
+
+/* TOP BAR */
+.topbar{background:linear-gradient(135deg,#FF6B35,#E85A24);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:99;box-shadow:0 4px 20px rgba(255,107,53,0.4)}
+.logo-area{display:flex;align-items:center;gap:10px}
+.logo-area img{width:38px;height:38px;border-radius:8px}
+.logo-text{font-size:1.4rem;font-weight:900;color:#fff;letter-spacing:1px}
+.logo-text span{color:#FFD700}
+.tagline-top{font-size:.65rem;color:rgba(255,255,255,.85);font-weight:600;letter-spacing:0.5px}
+.install-btn{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:7px 13px;border-radius:20px;font-size:.75rem;font-weight:700;cursor:pointer;white-space:nowrap;display:none}
+.install-btn.show{display:block}
+
+/* BODY */
+.wrap{max-width:500px;margin:auto;padding:14px}
+
+/* HERO */
+.hero{text-align:center;padding:16px 0 12px}
+.hero h2{font-size:1.25rem;font-weight:800;color:#fff;margin-bottom:5px}
+.hero p{font-size:.8rem;color:#94a3b8;line-height:1.6}
+.badge-row{display:flex;justify-content:center;gap:7px;margin-top:9px;flex-wrap:wrap}
+.badge{background:rgba(255,107,53,.12);border:1px solid rgba(255,107,53,.25);color:#FF6B35;padding:3px 11px;border-radius:20px;font-size:.7rem;font-weight:700}
+
+/* FORM */
+.box{background:#1e293b;border-radius:14px;padding:18px;margin-bottom:12px;border:1px solid rgba(255,107,53,.15)}
+label{display:block;color:#FF6B35;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px;margin-top:13px}
+label:first-child{margin-top:0}
+input,select{width:100%;padding:11px 13px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,107,53,.25);border-radius:9px;color:#fff;font-size:.92rem;outline:none;-webkit-appearance:none;appearance:none}
+input:focus,select:focus{border-color:#FF6B35;background:rgba(255,107,53,.07)}
+select option{background:#1e293b}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.chip{background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.25);color:#FF6B35;padding:4px 10px;border-radius:20px;font-size:.72rem;font-weight:700;cursor:pointer}
+.chip:active{background:rgba(255,107,53,.3)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
+.search-btn{width:100%;padding:15px;background:linear-gradient(135deg,#FF6B35,#E85A24);border:none;border-radius:11px;color:#fff;font-size:1.1rem;font-weight:800;cursor:pointer;margin-top:16px;letter-spacing:.5px;box-shadow:0 4px 16px rgba(255,107,53,.3)}
+.search-btn:active{transform:scale(.98)}
+
+/* RESULTS */
+.summary{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.2);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:.83rem;color:#ccc;line-height:1.7}
+.summary b{color:#FF6B35}
+.rtitle{font-size:1rem;font-weight:800;margin-bottom:10px;color:#fff}
+.card{background:#1e293b;border-radius:12px;padding:15px;margin-bottom:10px;border-left:4px solid #FF6B35;animation:up .3s ease both}
+.card.li{border-color:#0077B5}.card.in{border-color:#2164F3}.card.fo{border-color:#9b59b6}.card.sh{border-color:#27ae60}
+.ctop{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.cicon{font-size:1.2rem}
+.cname{font-weight:800;font-size:.95rem}
+.cdesc{font-size:.78rem;color:#94a3b8;margin-bottom:11px;line-height:1.5}
+.cbtn{display:block;width:100%;padding:12px;border:none;border-radius:8px;color:#fff;font-weight:800;font-size:.92rem;cursor:pointer;text-align:center;text-decoration:none}
+.card.na .cbtn{background:#FF6B35}.card.li .cbtn{background:#0077B5}.card.in .cbtn{background:#2164F3}.card.fo .cbtn{background:#9b59b6}.card.sh .cbtn{background:#27ae60}
+.tip{background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);border-radius:10px;padding:13px;margin-top:4px;margin-bottom:8px;font-size:.78rem;color:#ffd700;line-height:1.9}
+.footer{text-align:center;color:#475569;font-size:.7rem;margin-top:14px;padding-bottom:16px}
+.footer b{color:#FF6B35}
+
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <img src="logo.png.jpeg" alt="JobTrust" onerror="this.style.display='none'"/>
+  <h1>JobTrust</h1>
+  <p>REAL JOBS · REAL TRUST</p>
+  <div class="splash-bar"><div class="splash-fill"></div></div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo-area">
+    <img src="logo.png.jpeg" alt="JT" onerror="this.style.display='none'"/>
+    <div>
+      <div class="logo-text">Job<span>Trust</span></div>
+      <div class="tagline-top">Real Jobs. Zero Fake.</div>
+    </div>
+  </div>
+  <button class="install-btn" id="installBtn" onclick="installApp()">📲 Install App</button>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <h2>⚡ Turant Real Job Dhundho</h2>
+    <p>Naukri, LinkedIn, Indeed — sab ek jagah.<br>Koi AI nahi, koi fake nahi — sirf real jobs.</p>
+    <div class="badge-row">
+      <span class="badge">✅ 100% Real</span>
+      <span class="badge">⚡ Instant</span>
+      <span class="badge">🆓 Free</span>
+      <span class="badge">📱 Install Karo</span>
+    </div>
+  </div>
+
+  <div class="box">
+    <label>🛠️ Job Role / Skill</label>
+    <input type="text" id="role" placeholder="AWS, DevOps, Sales, HR..."/>
+    <div class="chips">
+      <span class="chip" onclick="sv('role','AWS Engineer')">AWS</span>
+      <span class="chip" onclick="sv('role','Linux Administrator')">Linux</span>
+      <span class="chip" onclick="sv('role','DevOps Engineer')">DevOps</span>
+      <span class="chip" onclick="sv('role','Python Developer')">Python</span>
+      <span class="chip" onclick="sv('role','Sales Executive')">Sales</span>
+      <span class="chip" onclick="sv('role','Data Analyst')">Data Analyst</span>
+      <span class="chip" onclick="sv('role','React Developer')">React</span>
+      <span class="chip" onclick="sv('role','HR Executive')">HR</span>
+    </div>
+
+    <label>📍 City / Location</label>
+    <input type="text" id="city" placeholder="Mumbai, Delhi, Pune..."/>
+    <div class="chips">
+      <span class="chip" onclick="sv('city','Mumbai')">Mumbai</span>
+      <span class="chip" onclick="sv('city','Delhi')">Delhi</span>
+      <span class="chip" onclick="sv('city','Bangalore')">Bangalore</span>
+      <span class="chip" onclick="sv('city','Pune')">Pune</span>
+      <span class="chip" onclick="sv('city','Hyderabad')">Hyderabad</span>
+      <span class="chip" onclick="sv('city','Remote')">Remote/WFH</span>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label>📊 Experience</label>
+        <select id="exp">
+          <option value="0">Fresher</option>
+          <option value="1">1 Year</option>
+          <option value="2">2 Years</option>
+          <option value="3">3 Years</option>
+          <option value="5">5+ Years</option>
+        </select>
+      </div>
+      <div>
+        <label>🌐 Platform</label>
+        <select id="plat">
+          <option value="all">Sab</option>
+          <option value="naukri">Naukri</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="indeed">Indeed</option>
+          <option value="foundit">Foundit</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="search-btn" onclick="go()">🔍 JOBS DHUNDHO</button>
+  </div>
+
+  <div id="results"></div>
+  <div class="footer">Made with ❤️ by <b>JobTrust</b> — Real Jobs India</div>
+</div>
+
+<script>
+// Splash hide
+setTimeout(function(){
+  var s=document.getElementById('splash');
+  s.style.opacity='0';
+  setTimeout(function(){s.style.display='none'},500);
+},2000);
+
+// PWA Install
+var deferredPrompt;
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault();
+  deferredPrompt=e;
+  document.getElementById('installBtn').classList.add('show');
+});
+
+function installApp(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(){deferredPrompt=null});
+  }
+}
+
+// Manifest inject
+var manifest={
+  name:'JobTrust',
+  short_name:'JobTrust',
+  description:'Real Jobs India - Naukri LinkedIn Indeed',
+  start_url:'./',
+  display:'standalone',
+  background_color:'#0f172a',
+  theme_color:'#FF6B35',
+  orientation:'portrait',
+  icons:[
+    {src:'logo.png',sizes:'192x192',type:'image/png'},
+    {src:'logo.png',sizes:'512x512',type:'image/png'}
+  ]
+};
+var blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+var url=URL.createObjectURL(blob);
+document.getElementById('manifest-placeholder').href=url;
+
+function sv(id,v){document.getElementById(id).value=v}
+
+function go(){
+  var role=document.getElementById('role').value.trim();
+  var city=document.getElementById('city').value.trim();
+  var exp=document.getElementById('exp').value;
+  var plat=document.getElementById('plat').value;
+  if(!role||!city){alert('Role aur City dono bharo!');return;}
+
+  var rs=role.toLowerCase().replace(/\s+/g,'-');
+  var cs=city.toLowerCase().replace(/\s+/g,'-');
+  var re=encodeURIComponent(role);
+  var ce=encodeURIComponent(city);
+
+  var all=[
+    {k:'naukri',cls:'na',icon:'🟠',name:'Naukri.com',
+     url:'https://www.naukri.com/'+rs+'-jobs-in-'+cs+'?experience='+exp,
+     desc:'India #1 job portal. '+city+' mein '+role+' ki real vacancies.'},
+    {k:'linkedin',cls:'li',icon:'🔵',name:'LinkedIn Jobs',
+     url:'https://www.linkedin.com/jobs/search/?keywords='+re+'&location='+ce,
+     desc:'MNC aur startups yahan hire karte hain. Direct recruiter se milna.'},
+    {k:'indeed',cls:'in',icon:'🔷',name:'Indeed India',
+     url:'https://in.indeed.com/jobs?q='+re+'&l='+ce,
+     desc:'Worldwide job engine. Hundreds of real listings milenge.'},
+    {k:'foundit',cls:'fo',icon:'🟣',name:'Foundit (Monster)',
+     url:'https://www.foundit.in/search?query='+re+'&location='+ce,
+     desc:'IT aur non-IT dono jobs. Top companies post karti hain.'},
+    {k:'shine',cls:'sh',icon:'🟢',name:'Shine.com',
+     url:'https://www.shine.com/job-search/'+rs+'-jobs-in-'+cs,
+     desc:'Fresher aur experienced dono ke liye real listings.'}
+  ];
+
+  var show=plat==='all'?all:all.filter(function(p){return p.k===plat});
+  var html='<div class="summary">🎯 <b>'+role+'</b> — <b>'+city+'</b><br>Experience: <b>'+(exp==0?'Fresher':exp+' Yr')+'</b> | <b>'+show.length+' platforms</b></div>';
+  html+='<div class="rtitle">🔴 Real Job Results</div>';
+
+  show.forEach(function(p,i){
+    html+='<div class="card '+p.cls+'" style="animation-delay:'+(i*.07)+'s"><div class="ctop"><span class="cicon">'+p.icon+'</span><span class="cname">'+p.name+'</span></div><div class="cdesc">'+p.desc+'</div><a class="cbtn" href="'+p.url+'" target="_blank">⚡ '+p.name+' pe Dekho →</a></div>';
+  });
+
+  html+='<div class="tip">💡 <b>Pro Tips:</b><br>✅ Naukri pe profile 100% complete karo<br>✅ LinkedIn "Open to Work" ON karo<br>✅ Resume PDF format mein rakho<br>✅ Subah 9-11 baje apply karo</div>';
+
+  document.getElementById('results').innerHTML=html;
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
